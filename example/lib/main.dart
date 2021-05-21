@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:math';
+
 import 'package:cache_audio_player/cache_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -15,17 +16,17 @@ class _MyAppState extends State<MyApp> {
   final String _sampleURL =
       "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
-  StreamSubscription<AudioPlayerState> _stateSubscription;
-  StreamSubscription<double> _bufferSubscription;
-  StreamSubscription<double> _timeElapsedSubscription;
-  StreamSubscription<Object> _errorSubscription;
+  StreamSubscription<AudioPlayerState>? _stateSubscription;
+  StreamSubscription<double>? _bufferSubscription;
+  StreamSubscription<double>? _timeElapsedSubscription;
+  StreamSubscription<Object>? _errorSubscription;
 
   AudioPlayerState _state = AudioPlayerState.PAUSED;
   double _bufferedPercentage = 0;
   double _timeInSeconds = 0;
   double _percentageOfTimeElapsed = 0;
   int _totalDuration = 0;
-  Object _error;
+  Object? _error;
   bool _isSeekng = false;
   double _valueToSeekTo = 0;
 
@@ -68,10 +69,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     super.dispose();
-    _stateSubscription.cancel();
-    _bufferSubscription.cancel();
-    _errorSubscription.cancel();
-    _timeElapsedSubscription.cancel();
+    _stateSubscription!.cancel();
+    _bufferSubscription!.cancel();
+    _errorSubscription!.cancel();
+    _timeElapsedSubscription!.cancel();
     _audioPlayer.stop();
     _audioPlayer.unregisterListeners();
   }
@@ -131,7 +132,9 @@ class _MyAppState extends State<MyApp> {
           Row(
             children: <Widget>[
               Text("Time: ${formattedTime()}"),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text("Buffer: $_bufferedPercentage"),
             ],
           ),
@@ -145,7 +148,7 @@ class _MyAppState extends State<MyApp> {
     return Duration(seconds: _timeInSeconds.toInt()).toString();
   }
 
-   _updateSliderValue() {
+  _updateSliderValue() {
     if (_totalDuration == 0) {
       _audioPlayer.lengthInseconds().then((totalDuration) {
         _totalDuration = totalDuration.toInt();

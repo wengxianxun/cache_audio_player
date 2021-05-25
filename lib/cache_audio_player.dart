@@ -1,8 +1,14 @@
 import 'dart:async';
+
 import 'package:flutter/services.dart';
 
 /// Enum representing the multiple states the Audio player can have.
 enum AudioPlayerState {
+  /// There hasn't been any resource loaded yet.
+  IDLE,
+
+  /// Resource is being loaded.
+  LOADING,
   // [iOS] - State returned by AVPlayer, or set when buffering is finshed and audio is not being played.
   // [Android] - State returned by ExoPlayer
   // Value 0
